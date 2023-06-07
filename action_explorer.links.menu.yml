@@ -1,0 +1,15 @@
+# Define default links for this module.
+action_explorer:
+  title: Actions Explorer
+  route_name: action_explorer.actions
+  expanded: TRUE
+
+action_explorer.type:
+  title: actions by type
+  route_name: action_explorer.type
+  parent: action_explorer
+
+action_explorer.provider:
+  title: actions by provider
+  route_name: action_explorer.provider
+  parent: action_explorer

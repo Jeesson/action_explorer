@@ -1,0 +1,23 @@
+action_explorer.actions:
+  path: '/ae/actions'
+  defaults:
+    _controller: '\Drupal\action_explorer\Controller\ActionExplorerController::all'
+    _title: 'Action Explorer'
+  requirements:
+    _permission: 'access content'
+
+action_explorer.type:
+  path: '/ae/type'
+  defaults:
+    _controller: '\Drupal\action_explorer\Controller\ActionExplorerController::type'
+    _title: 'Action Explorer by type'
+  requirements:
+    _permission: 'access content'
+
+action_explorer.provider:
+  path: '/ae/provider'
+  defaults:
+    _controller: '\Drupal\action_explorer\Controller\ActionExplorerController::provider'
+    _title: 'Action Explorer by provider'
+  requirements:
+    _permission: 'access content'
