@@ -8,79 +8,29 @@ class ActionExplorerController extends ControllerBase {
     $actions = $this->getArr();
 
     return [
-      '#type' => 'table',
-      '#header' => [
-        'col0' => [
-          'data' => $this->t('id'),
-          'class' => 'header',
-        ],
-        'col1' => [
-          'data' => $this->t('label'),
-          'class' => 'header',
-        ],
-        'col2' => [
-          'data' => $this->t('provider'),
-          'class' => 'header',
-        ],
-        'col3' => [
-          'data' => $this->t('type'),
-          'class' => 'header',
-        ],
-        'col4' => [
-          'data' => $this->t('derived'),
-          'class' => 'header',
-        ],
-      ],
-      '#rows' => $actions,
+      '#theme' => 'all_actions',
+      '#actions' => $actions
     ];
   }
 
   public function type(): array {
     $definitions = $this->getArr();
 
-    $actions = [];
+    $actions_by_type = [];
     foreach ($definitions as $definition) {
-      $actions[] = [
+      $type = $definition['type'];
+      $actions_by_type[$type][] = [
         'id' => $definition['id'],
         'label' => $definition['label'],
         'provider' => $definition['provider'],
-        'type' => $definition['type'],
-        'derived' => isset($definition['derivative_of']) ? 'Yes' : 'No',
-      ];
-    }
-
-    // Группировка элементов массива $actions по типу
-    $groupedActions = [];
-    foreach ($actions as $action) {
-      $groupedActions[$action['type']][] = $action;
-    }
-
-    // Создание массива таблиц по типу
-    $tables = [];
-    foreach ($groupedActions as $type => $actionsByType) {
-      $rows = [];
-      foreach ($actionsByType as $action) {
-        $rows[] = [
-          $action['id'],
-          $action['label'],
-          $action['provider'],
-          //$action['type'],
-          $action['derived'],
-        ];
-      }
-
-      $tables[] = [
-        '#type' => 'table',
-        //'#header' => ['ID', 'Label', 'Provider', 'Type' 'Derived'],
-        '#header' => ['ID', 'Label', 'Provider', 'Derived'],
-        '#rows' => $rows,
-        '#caption' => "Type: {$type}",
+        'type' => $type,
+        'derived' => isset($definition['derivative_of']),
       ];
     }
 
     return [
-      '#theme' => 'item_list',
-      '#items' => $tables,
+      '#theme' => 'actions_by_type',
+      '#actions_by_type' => $actions_by_type,
     ];
 
   }
@@ -88,49 +38,21 @@ class ActionExplorerController extends ControllerBase {
   public function provider() {
     $definitions = $this->getArr();
 
-    $actions = [];
+
+    $actions_by_provider = [];
     foreach ($definitions as $definition) {
-      $actions[] = [
+      $provider = $definition['provider'];
+      $actions_by_provider[$provider][] = [
         'id' => $definition['id'],
         'label' => $definition['label'],
-        'provider' => $definition['provider'],
+        'provider' => $provider,
         'type' => $definition['type'],
-        'derived' => isset($definition['derivative_of']) ? 'Yes' : 'No',
+        'derived' => isset($definition['derivative_of']),
       ];
     }
-
-    // Группировка элементов массива $actions по провайдеру
-    $groupedActions = [];
-    foreach ($actions as $action) {
-      $groupedActions[$action['provider']][] = $action;
-    }
-
-    // Создание массива таблиц
-    $tables = [];
-    foreach ($groupedActions as $provider => $actionsByType) {
-      $rows = [];
-      foreach ($actionsByType as $action) {
-        $rows[] = [
-          $action['id'],
-          $action['label'],
-          //$action['provider'],
-          $action['type'],
-          $action['derived'],
-        ];
-      }
-
-      $tables[] = [
-        '#type' => 'table',
-        //'#header' => ['ID', 'Label', 'Provider', 'Type' 'Derived'],
-        '#header' => ['ID', 'Label', 'Type', 'Derived'],
-        '#rows' => $rows,
-        '#caption' => "Type: {$provider}",
-      ];
-    }
-
     return [
-      '#theme' => 'item_list',
-      '#items' => $tables,
+      '#theme' => 'actions_by_provider',
+      '#actions_by_provider' => $actions_by_provider,
     ];
   }
 
@@ -147,7 +69,7 @@ class ActionExplorerController extends ControllerBase {
         'id' => $definition['id'],
         'label' => $definition['label'],
         'provider' => $definition['provider'],
-        'type' => $definition['type'],
+        'type' => $definition['type'] ?: 'Without any type',
         'derived' => isset($definition['derivative_of']) ? 'Yes' : 'No',
       ];
     }

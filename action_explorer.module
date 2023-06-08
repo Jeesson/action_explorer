@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function action_explorer_theme($existing, $type, $theme, $path) {
+  return [
+    'all_actions' => [
+      'variables' => [
+        'actions' => NULL,
+      ],
+    ],
+    'actions_by_type' => [
+      'variables' => [
+        'actions_by_type' => NULL,
+      ],
+    ],
+    'actions_by_provider' => [
+      'variables' => [
+        'actions_by_provider' => NULL,
+      ],
+    ],
+  ];
+}

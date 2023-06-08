@@ -1,0 +1,23 @@
+{% for provider, actions in actions_by_provider %}
+  <h2>{{ provider }}</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Label</th>
+      <th>Provider</th>
+      <th>Derived</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for action in actions %}
+      <tr>
+        <td>{{ action.id }}</td>
+        <td>{{ action.label }}</td>
+        <td>{{ action.type }}</td>
+        <td>{{ action.derived ? 'Yes' : 'No' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}

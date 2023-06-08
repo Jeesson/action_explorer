@@ -1,0 +1,22 @@
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Label</th>
+    <th>Type</th>
+    <th>Provider</th>
+    <th>Derived</th>
+  </tr>
+  </thead>
+  {% for action in actions %}
+  <tbody>
+  <tr>
+    <td>{{ action.id }}</td>
+    <td>{{ action.label }}</td>
+    <td>{{ action.type }}</td>
+    <td>{{ action.provider }}</td>
+    <td>{{ action.derived }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
