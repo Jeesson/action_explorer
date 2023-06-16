@@ -24,7 +24,7 @@ class ActionExplorerController extends ControllerBase {
         'label' => $definition['label'],
         'provider' => $definition['provider'],
         'type' => $type,
-        'derived' => isset($definition['deriver']),
+        'derived' => $definition['derived'],
       ];
     }
 
@@ -47,7 +47,7 @@ class ActionExplorerController extends ControllerBase {
         'label' => $definition['label'],
         'provider' => $provider,
         'type' => $definition['type'],
-        'derived' => isset($definition['deriver']),
+        'derived' => $definition['derived'],
       ];
     }
     return [
