@@ -16,17 +16,17 @@ class ActionExplorerController extends ControllerBase {
   public function type(): array {
     $definitions = $this->getArr();
 
-    $actions_by_type = [];
-    foreach ($definitions as $definition) {
+    $actions_by_type = array_reduce($definitions, function($carry, $definition) {
       $type = $definition['type'];
-      $actions_by_type[$type][] = [
+      $carry[$type][] = [
         'id' => $definition['id'],
         'label' => $definition['label'],
         'provider' => $definition['provider'],
         'type' => $type,
         'derived' => $definition['derived'],
       ];
-    }
+      return $carry;
+    }, []);
 
     return [
       '#theme' => 'actions_by_type',
@@ -38,18 +38,18 @@ class ActionExplorerController extends ControllerBase {
   public function provider() {
     $definitions = $this->getArr();
 
-
-    $actions_by_provider = [];
-    foreach ($definitions as $definition) {
+    $actions_by_provider = array_reduce($definitions, function($carry, $definition) {
       $provider = $definition['provider'];
-      $actions_by_provider[$provider][] = [
+      $carry[$provider][] = [
         'id' => $definition['id'],
         'label' => $definition['label'],
         'provider' => $provider,
         'type' => $definition['type'],
         'derived' => $definition['derived'],
       ];
-    }
+      return $carry;
+    }, []);
+
     return [
       '#theme' => 'actions_by_provider',
       '#actions_by_provider' => $actions_by_provider,
@@ -63,17 +63,14 @@ class ActionExplorerController extends ControllerBase {
     $manager = \Drupal::service('plugin.manager.action');
     $definitions = $manager->getDefinitions();
 
-    $actions = [];
-    foreach ($definitions as $definition) {
-      $actions[] = [
+    return array_map(function($definition) {
+      return [
         'id' => $definition['id'],
         'label' => $definition['label'],
         'provider' => $definition['provider'],
         'type' => $definition['type'] ?: 'Without any type',
         'derived' => isset($definition['deriver']) ? 'Yes' : 'No',
       ];
-    }
-    return $actions;
+    }, $definitions);
   }
-
 }
